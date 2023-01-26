@@ -13,12 +13,12 @@
 (function(global) {
   'use strict';
 
-  const pollTimeInSeconds = 3000;
-  const titleResetInSeconds = 1500;
+  const pollTime = 3000;
+  const titleResetTime = 1500;
   const notificationResetTime = 30000;
   const playerIdPattern = /(\d+)$/;
 
-  startTimer();
+  startIntervalTimer();
 
   function getPlayerIdFromUrl() {
     let match = playerIdPattern.exec(window.location.search);
@@ -34,14 +34,14 @@
     return document.querySelectorAll("[id^=playername]")[1].textContent;
   }
 
-  function startTimer() {
+  function startIntervalTimer() {
     let playerId = getPlayerIdFromUrl();
     let intervalVariable = `tornCityGroupAttackPollingInterval${playerId}`;
     let intervalId = window[intervalVariable];
 
     clearInterval(intervalId);
 
-    window[intervalVariable] = setInterval(pollNpcFight, pollTimeInSeconds);
+    window[intervalVariable] = setInterval(pollNpcFight, pollTime);
   }
 
   function pollNpcFight() {
@@ -71,7 +71,7 @@
       return;
     }
 
-    setTimeout(function () { changeWindowTitleTo(""); }, titleResetInSeconds);
+    setTimeout(function () { changeWindowTitleTo(""); }, titleResetTime);
   }
 
   function showNotification(text, timeout) {
